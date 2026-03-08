@@ -34,8 +34,9 @@ const loanOptions: LoanOption[] = [
   { amount: 60600, fee: 2050 },
 ];
 
-const formatCurrency = (amount: number) =>
-  `Ksh ${amount.toLocaleString()}`;
+const formatCurrency = (amount: number) => {
+  return "Ksh " + amount.toLocaleString();
+};
 
 const Apply = () => {
   const navigate = useNavigate();
