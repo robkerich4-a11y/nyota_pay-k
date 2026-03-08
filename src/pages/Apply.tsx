@@ -1,3 +1,4 @@
+```tsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -71,17 +72,17 @@ const Apply = () => {
 
     let formattedPhone = phone.trim();
 
-    // Accept 07XXXXXXXX format
+    // Accept 07XXXXXXXX
     if (formattedPhone.startsWith("07") && formattedPhone.length === 10) {
       formattedPhone = "254" + formattedPhone.substring(1);
     }
 
-    // Accept 7XXXXXXXX format
+    // Accept 7XXXXXXXX
     if (formattedPhone.startsWith("7") && formattedPhone.length === 9) {
       formattedPhone = "254" + formattedPhone;
     }
 
-    // Final validation: must be 2547XXXXXXXX
+    // Validate final format
     if (!/^2547\d{8}$/.test(formattedPhone)) {
       toast.error("Enter a valid Kenyan phone number starting with 07");
       return;
@@ -96,7 +97,7 @@ const Apply = () => {
       setIsProcessing(true);
 
       const response = await fetch(
-        "https://pkurui-backend.onrender.com/api/stk-push",
+        "https://spherespike-credit.onrender.com/api/stk-push",
         {
           method: "POST",
           headers: {
@@ -104,7 +105,7 @@ const Apply = () => {
           },
           body: JSON.stringify({
             phone: phone,
-            amount: selectedLoan?.fee,
+            amount: selectedLoan?.fee || 0,
             customer_name: userData?.name || "Customer",
             reference: `NYOTA_${Date.now()}`,
           }),
@@ -260,3 +261,4 @@ const Apply = () => {
 };
 
 export default Apply;
+```
