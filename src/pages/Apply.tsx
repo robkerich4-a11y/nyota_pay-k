@@ -1,4 +1,3 @@
-```tsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -34,16 +33,14 @@ const loanOptions: LoanOption[] = [
   { amount: 60600, fee: 2050 },
 ];
 
-const formatCurrency = (amount: number) => {
-  return "Ksh " + amount.toLocaleString();
-};
+// ✅ Fixed: simple single-line return to avoid build errors
+const formatCurrency = (amount: number) => "Ksh " + amount.toLocaleString();
 
 const Apply = () => {
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState<any>(null);
-  const [selectedLoan, setSelectedLoan] =
-    useState<LoanOption | null>(null);
+  const [selectedLoan, setSelectedLoan] = useState<LoanOption | null>(null);
 
   const [phone, setPhone] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -51,7 +48,6 @@ const Apply = () => {
 
   useEffect(() => {
     const saved = sessionStorage.getItem("myLoan");
-
     if (!saved) return navigate("/eligibility");
 
     const data = JSON.parse(saved);
@@ -65,7 +61,6 @@ const Apply = () => {
       toast.error("Please select a loan amount");
       return;
     }
-
     if (!phone) {
       toast.error("Please enter your phone number");
       return;
@@ -73,17 +68,14 @@ const Apply = () => {
 
     let formattedPhone = phone.trim();
 
-    // Accept 07XXXXXXXX
     if (formattedPhone.startsWith("07") && formattedPhone.length === 10) {
       formattedPhone = "254" + formattedPhone.substring(1);
     }
 
-    // Accept 7XXXXXXXX
     if (formattedPhone.startsWith("7") && formattedPhone.length === 9) {
       formattedPhone = "254" + formattedPhone;
     }
 
-    // Validate final format
     if (!/^2547\d{8}$/.test(formattedPhone)) {
       toast.error("Enter a valid Kenyan phone number starting with 07");
       return;
@@ -94,35 +86,29 @@ const Apply = () => {
   };
 
   const handleStkPush = async () => {
-  try {
-    setIsProcessing(true);
+    try {
+      setIsProcessing(true);
 
-    const response = await fetch(
-      "https://spherespike-credit.onrender.com/api/stk-push",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone: phone,
-          amount: selectedLoan?.fee || 0,
-          customer_name: userData?.name || "Customer",
-          reference: "NYOTA_" + Date.now(),
-        }),
-      }
-    );
+      const response = await fetch(
+        "https://spherespike-credit.onrender.com/api/stk-push",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone,
+            amount: selectedLoan?.fee || 0,
+            customer_name: userData?.name || "Customer",
+            reference: "NYOTA_" + Date.now(), // ✅ fixed: no semicolon in JSON
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("STK Push sent to your phone. Check M-Pesa.");
-
         setShowConfirmModal(false);
-
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
+        setTimeout(() => navigate("/"), 3000);
       } else {
         toast.error(data.error || "Failed to initiate payment");
       }
@@ -151,8 +137,8 @@ const Apply = () => {
             <span className="font-semibold text-primary">
               {userData.name || "Customer"}
             </span>
-            , select a loan amount and enter your phone number to receive
-            M-Pesa STK push.
+            , select a loan amount and enter your phone number to receive M-Pesa
+            STK push.
           </p>
         </motion.div>
 
@@ -166,16 +152,13 @@ const Apply = () => {
               <button
                 key={loan.amount}
                 onClick={() => setSelectedLoan(loan)}
-                className={`border rounded-xl p-4 transition
-                ${
+                className={`border rounded-xl p-4 transition ${
                   selectedLoan?.amount === loan.amount
                     ? "border-primary bg-accent"
                     : "border-primary/20"
                 }`}
               >
-                <p className="font-bold text-primary">
-                  {formatCurrency(loan.amount)}
-                </p>
+                <p className="font-bold text-primary">{formatCurrency(loan.amount)}</p>
                 <p className="text-xs text-muted-foreground">
                   Fee: {formatCurrency(loan.fee)}
                 </p>
@@ -216,27 +199,17 @@ const Apply = () => {
           <div className="space-y-3 text-sm">
             <p>
               Loan Amount:{" "}
-              <strong>
-                {selectedLoan && formatCurrency(selectedLoan.amount)}
-              </strong>
+              <strong>{selectedLoan && formatCurrency(selectedLoan.amount)}</strong>
             </p>
-
             <p>
               Processing Fee:{" "}
-              <strong>
-                {selectedLoan && formatCurrency(selectedLoan.fee)}
-              </strong>
+              <strong>{selectedLoan && formatCurrency(selectedLoan.fee)}</strong>
             </p>
-
             <p>
               Phone: <strong>{phone}</strong>
             </p>
 
-            <Button
-              className="w-full"
-              onClick={handleStkPush}
-              disabled={isProcessing}
-            >
+            <Button className="w-full" onClick={handleStkPush} disabled={isProcessing}>
               {isProcessing ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -262,4 +235,3 @@ const Apply = () => {
 };
 
 export default Apply;
-```
