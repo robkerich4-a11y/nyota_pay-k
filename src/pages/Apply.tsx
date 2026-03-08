@@ -94,24 +94,24 @@ const Apply = () => {
   };
 
   const handleStkPush = async () => {
-    try {
-      setIsProcessing(true);
+  try {
+    setIsProcessing(true);
 
-      const response = await fetch(
-        "https://spherespike-credit.onrender.com/api/stk-push",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            phone: phone,
-            amount: selectedLoan?.fee || 0,
-            customer_name: userData?.name || "Customer",
-            reference: `NYOTA_${Date.now()}`,
-          }),
-        }
-      );
+    const response = await fetch(
+      "https://spherespike-credit.onrender.com/api/stk-push",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phone: phone,
+          amount: selectedLoan?.fee || 0,
+          customer_name: userData?.name || "Customer",
+          reference: "NYOTA_" + Date.now(),
+        }),
+      }
+    );
 
       const data = await response.json();
 
