@@ -4,6 +4,7 @@ import LoanHighlight from "@/components/LoanHighlight";
 import Features from "@/components/Features";
 import TrustSection from "@/components/TrustSection";
 import Footer from "@/components/Footer";
+import AboutNyota from "@/components/AboutNyota";
 
 const Index = () => {
   return (
@@ -13,6 +14,7 @@ const Index = () => {
       <main className="max-w-7xl mx-auto px-5">
         <LoanHighlight />
         <Features />
+	<AboutNyota />
         <TrustSection />
       </main>
       <Footer />
