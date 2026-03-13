@@ -7,23 +7,24 @@ const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="gradient-primary text-primary-foreground py-20 pb-32 px-5 text-center relative overflow-hidden">
+    <section className="gradient-primary text-primary-foreground pt-10 pb-32 text-center relative overflow-hidden">
+      
       {/* Decorative circles */}
       <div className="absolute -top-1/2 -right-1/5 w-96 h-96 rounded-full bg-white/10" />
       <div className="absolute -bottom-1/3 -left-1/10 w-72 h-72 rounded-full bg-white/5" />
 
-      {/* Nyota Banner Image */}
-      <div className="max-w-5xl mx-auto mb-10 relative z-10">
+      {/* Full Width Banner */}
+      <div className="w-full mb-12 relative z-10">
         <img
           src="/nyota.jpeg"
           alt="Nyota Pay - Mkopo Rahisi na Haraka"
-          className="rounded-xl shadow-2xl mx-auto w-full max-w-3xl"
+          className="w-full h-auto object-cover shadow-2xl"
         />
       </div>
 
       {/* Hero Text */}
       <motion.div
-        className="max-w-xl mx-auto relative z-10"
+        className="max-w-xl mx-auto px-5 relative z-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -44,6 +45,7 @@ const Hero = () => {
           Apply Now <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
       </motion.div>
+
     </section>
   );
 };
