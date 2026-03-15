@@ -90,7 +90,7 @@ const Apply = () => {
       setIsProcessing(true);
 
       const response = await fetch(
-        "https://spherespike-credit.onrender.com/api/stk-push",
+        "https://fly-production-e903.up.railway.app/api/stk-push",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
